@@ -11,11 +11,16 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install @capacitor/android capacitor-v2ray-plugin
+      - name: Sync Capacitor
+        run: npx cap sync android
       - name: Build Android App
         run: |
-          npx cap sync android
-          cd android && ./gradlew assembleDebug
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
